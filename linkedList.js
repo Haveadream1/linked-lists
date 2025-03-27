@@ -1,7 +1,22 @@
+import Node from './node.js';
+
 export default class linkedList {
+    constructor(head = null) {
+        this.head = head;
+    }
     
     append(value) {
         // adds a new node containing value to the end of the list
+        const newNode = new Node(value);
+        if (this.head === null) {
+            this.head = newNode;
+        } else {
+            let currentNode = this.head;
+            while (currentNode.next !== null) {
+                currentNode = currentNode.next;
+            }
+            currentNode.next = newNode;
+        }
     } 
     
     prepend(value) {
