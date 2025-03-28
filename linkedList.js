@@ -10,14 +10,12 @@ export default class LinkedList {
         const newNode = new Node(value);
         if (this.head === null) {
             this.head = newNode;
-            console.log("head empty", this.head);
         } else {
             let currentNode = this.head;
             while (currentNode.next !== null) {
                 currentNode = currentNode.next;
             }
             currentNode.next = newNode;
-            console.log(currentNode, currentNode.next);
         }
     } 
     
@@ -25,33 +23,35 @@ export default class LinkedList {
         // adds a new node containing value to the start of the list
         const newNode = new Node(value);
         newNode.next = this.head;
+
         this.head = newNode;
     } 
     
     size() {
         // returns the total number of nodes in the list  
         let size = 0;
-        if (this.head === null) {
-            return size;
-        } else {
-            let currentNode = this.head;
-            while (currentNode.next !== null) {
-                size++;
-                currentNode = currentNode.next;
-            }
+
+        let currentNode = this.head;
+        while (currentNode !== null) {
+            size++;
+            currentNode = currentNode.next;
         }
         return size;
     } 
     
-    head() {
+    getHead() { // Issue with Head name, so we replaced it
         // returns the first node in the list
-        return this.head;
+        if (this.head === null) {
+            return null;
+        } else {
+            return this.head;
+        }
     } 
         
     tail() {
         // returns the last node in the list
         if (this.head === null) {
-            return this.head;
+            return null;
         } else {
             let currentNode = this.head;
             while (currentNode.next !== null) {
@@ -75,16 +75,23 @@ export default class LinkedList {
     pop() {
         // removes the last element from the list
         let currentNode = this.head;
-        while (currentNode.next !== null) {
-            currentNode = currentNode.next;
+        if ( currentNode === null) {
+            currentNode = null;
+        } else {
+            let pastNode = this.head;
+            while (currentNode.next !== null) {
+                pastNode = currentNode;
+                currentNode = currentNode.next;
+            }
+            pastNode.next = null;
+            currentNode = null;
         }
-        currentNode = null;
     } 
 
     contains(value) {
         // returns true if the passed in value is in the list and otherwise returns false
         let currentNode = this.head;
-        while (currentNode.next !== null) {
+        while (currentNode !== null) {
             if (currentNode.value === value) {
                 return true;
             }
@@ -97,7 +104,7 @@ export default class LinkedList {
         // returns the index of the node containing value, or null if not found.
         let currentIndex = 0;
         let currentNode = this.head;
-        while (currentNode.next !== null) {
+        while (currentNode !== null) {
             if (currentNode.value === value) {
                 return currentIndex;
             }
@@ -109,15 +116,16 @@ export default class LinkedList {
 
     toString() {
         // represents your LinkedList objects as strings, format should be: ( value ) -> ( value ) -> ( value ) -> null
+        let list = [];
         let currentNode = this.head;
-        if (currentNode === null) {
-            console.log(currentNode)
-        } else {
-            while (currentNode !== null) {
-                // process.stdout.write(`( ${currentNode.value} ) -> `);
 
-                currentNode = currentNode.next;
+        while (currentNode !== null) {
+            list.push(`( ${currentNode.value} ) -> `);
+            currentNode = currentNode.next;
+            if (currentNode === null) {
+                list.push('null');
             }
         }
+        return list.join('');
     } 
 }
